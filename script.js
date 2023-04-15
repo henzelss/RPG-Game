@@ -88,7 +88,7 @@ const locations = [
     {
         name : "kill monster",
         "button text" : ['Go to town Square', 'Go to town Square', 'Go to town Square'],
-        "button functions" : [goTown, goTown, goTown],
+        "button functions" : [goTown, goTown, easterEgg],
         text : 'The monster screams "Arg!" as it dies. You gained experience points and find gold.' 
         
     },
@@ -105,6 +105,12 @@ const locations = [
         "button functions" : [restart, restart, restart],
         text : 'You defeated the dragon you win the game!!!!!🥳🥳' 
         
+    },
+    {
+        name : "easter egg",
+        "button text" : ['3', '7', 'Go to town square?'],
+        "button functions" : [pickThree, pickSeven, goTown],
+        text : 'You find a secret game. Pick a number above. Ten numbers will berandombly chosen between 0 and 10. If the number you choose matches one of the random numbers, you win!'
     }
 
 ];
@@ -286,3 +292,41 @@ function restart() {
     
 }
 
+function easterEgg() {
+    update(locations[7]);
+}
+
+function pickThree() {
+    pick(3);
+
+}
+function pickSeven() {
+    pick(7);
+
+}
+function pick(guess) {
+    let numbers = [];
+
+    while (numbers.length < 10){
+        
+        numbers.push(Math.floor(Math.random() * 11))
+    }
+    text.innerText = "You picked " + guess + ". Here are the random numbers: \n";
+    
+    for (let i = 0; i < 10; i++){
+        text.innerText += numbers[i] + "\n"; 
+    }
+
+    if (numbers.indexOf(guess) !== -1 ){
+        text.innerText += "Tangina nanalo pa nga ng 20 gold👏👏👀!!!";
+        gold += 20;
+        goldText.innerText = gold;
+    }else {
+        text.innerText += "Wrong you lose 30 health hahwhha😁😁😁!!!";
+        health -= 30;
+        healthText.innerText = health;
+
+        health < 0 ? lose() : '';
+    }
+
+}
